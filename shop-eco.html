@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marlboro Gold Eco - Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --light-gold: #f4e5c3;
+            --dark-gold: #b8941f;
+            --black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --gray: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: var(--black);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--gray);
+            border-top: 3px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gold);
+            letter-spacing: 3px;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            opacity: 0.8;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        .cart-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gold);
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gold);
+            color: var(--black);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .hero {
+            width: 100%;
+            height: 70vh;
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-100px, 100px); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1400px;
+            width: 90%;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-text h1 {
+            font-size: 4.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideInLeft 1s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-text p {
+            font-size: 1.4rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            animation: slideInLeft 1s ease 0.2s both;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            padding: 18px 60px;
+            background: var(--gold);
+            color: var(--black);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+            animation: slideInLeft 1s ease 0.4s both;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-primary:hover {
+            background: var(--light-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-image {
+            text-align: center;
+            animation: slideInRight 1s ease 0.3s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+        }
+
+        .products-section {
+            padding: 120px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 60px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 3px;
+            background: var(--gold);
+            margin: 20px auto 0;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 80px;
+        }
+
+        .product-card {
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            padding: 40px;
+            transition: all 0.4s ease;
+        }
+
+        .product-card:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold);
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--dark-gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-card h3 {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .product-card p {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-btn {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .quantity-input {
+            width: 50px;
+            padding: 8px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            text-align: center;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 15px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
+        }
+
+        .add-to-cart:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .cart-modal.active {
+            display: flex;
+        }
+
+        .cart-content {
+            background: var(--dark-gray);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            border: 2px solid var(--gold);
+            position: relative;
+        }
+
+        .cart-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .cart-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-item-name {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .cart-item-qty {
+            color: var(--gold);
+            margin: 0 20px;
+        }
+
+        .cart-item-price {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .cart-remove {
+            color: #999;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .cart-remove:hover {
+            color: var(--gold);
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: #ccc;
+            padding: 40px 0;
+            font-size: 1.2rem;
+        }
+
+        .cart-total {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            margin: 30px 0;
+            border-left: 4px solid var(--gold);
+        }
+
+        .cart-total-label {
+            color: #999;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .cart-total-price {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .checkout-btn:hover {
+            background: var(--light-gold);
+        }
+
+        .checkout-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .checkout-modal.active {
+            display: flex;
+        }
+
+        .checkout-content {
+            background: var(--dark-gray);
+            width: 90%;
+            max-width: 700px;
+            padding: 50px;
+            border: 3px solid var(--gold);
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkout-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .checkout-title {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .checkout-text {
+            color: #ccc;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .checkout-form {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--light-gold);
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #ccc;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .checkout-summary {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            border-left: 4px solid var(--gold);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .summary-item.total {
+            color: var(--gold);
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 10px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+        }
+
+        .confirm-btn:hover {
+            background: var(--light-gold);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: var(--dark-gray);
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+            padding: 50px;
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--light-gold);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav a {
+                margin-left: 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo" style="cursor: pointer;">MARLBORO</a>
+        <div class="header-right">
+            <nav>
+                <a href="index.html">← Home</a>
+            </nav>
+            <div class="cart-icon" onclick="openCart()">
+                🛒 <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Marlboro Gold Eco</h1>
+                <p>Sostenibilità senza compromessi sulla qualità premium</p>
+                <button class="cta-primary" onclick="scrollToSection('prodotti')">Scopri Ora</button>
+            </div>
+            <div class="hero-image">
+                <img src="https://i.ibb.co/xtTmzG0F/Whats-App-Image-2025-12-18-at-20-02-18.jpg" alt="Marlboro Gold Eco">
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section" id="prodotti">
+        <h2 class="section-title">I Nostri Prodotti Sostenibili</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://i.ibb.co/xtTmzG0F/Whats-App-Image-2025-12-18-at-20-02-18.jpg" alt="Marlboro Gold Eco Standard">
+                </div>
+                <h3>Marlboro Gold Eco Standard</h3>
+                <p>Qualità premium con responsabilità ambientale. 100% carta riciclata, filtro biodegradabile.</p>
+                <div class="product-price">€6,30</div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="changeQty('qty1', -1)">−</button>
+                    <input type="number" id="qty1" class="quantity-input" value="1" min="1" max="99">
+                    <button class="quantity-btn" onclick="changeQty('qty1', 1)">+</button>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Eco Standard', 17.99, document.getElementById('qty1').value)">Aggiungi al Carrello</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://i.ibb.co/xtTmzG0F/Whats-App-Image-2025-12-18-at-20-02-18.jpg" alt="Marlboro Gold Eco Pack">
+                </div>
+                <h3>Marlboro Gold Eco Pack</h3>
+                <p>La confezione premium sostenibile. Supporto ai progetti di rimboschimento globale.</p>
+                <div class="product-price">€6,50</div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="changeQty('qty2', -1)">−</button>
+                    <input type="number" id="qty2" class="quantity-input" value="1" min="1" max="99">
+                    <button class="quantity-btn" onclick="changeQty('qty2', 1)">+</button>
+                </div>
+                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Eco Pack', 19.99, document.getElementById('qty2').value)">Aggiungi al Carrello</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <span class="cart-close" onclick="closeCart()">✕</span>
+            <h2 class="cart-title">Il Tuo Carrello</h2>
+            <div id="cartItems"></div>
+            <div id="emptyMessage" class="cart-empty">Il carrello è vuoto</div>
+            <div id="cartTotalSection" style="display:none;">
+                <div class="cart-total">
+                    <div class="cart-total-label">TOTALE</div>
+                    <div class="cart-total-price" id="cartTotal">€0,00</div>
+                </div>
+                <button class="checkout-btn" onclick="openCheckout()">Procedi al Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="checkout-content">
+            <span class="checkout-close" onclick="closeCheckout()">✕</span>
+            <h2 class="checkout-title">Checkout</h2>
+            <p class="checkout-text">Completa i dettagli della tua spedizione</p>
+            
+            <div class="checkout-summary">
+                <div id="checkoutItems"></div>
+                <div class="summary-item total">
+                    <span>TOTALE ORDINE</span>
+                    <span id="checkoutTotal">€0,00</span>
+                </div>
+            </div>
+
+            <div class="checkout-form">
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input type="text" id="firstName" placeholder="Inserisci il tuo nome">
+                </div>
+                <div class="form-group">
+                    <label>Cognome</label>
+                    <input type="text" id="lastName" placeholder="Inserisci il tuo cognome">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="inserisci@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Indirizzo</label>
+                    <input type="text" id="address" placeholder="Via/Piazza, numero civico">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Città</label>
+                        <input type="text" id="city" placeholder="Città">
+                    </div>
+                    <div class="form-group">
+                        <label>CAP</label>
+                        <input type="text" id="postal" placeholder="00000">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Numero di Carta (TEST: 4532...)</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+            </div>
+
+            <button class="confirm-btn" onclick="confirmOrder()">Conferma Ordine</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Philip Morris International. Marlboro Gold Eco Official Store.</p>
+        <p style="margin-top: 20px; font-size: 0.8rem;">AVVISO: Il fumo provoca gravi danni alla salute. Vietato ai minori di 18 anni.</p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function changeQty(inputId, change) {
+            const input = document.getElementById(inputId);
+            let value = parseInt(input.value) + change;
+            if (value >= 1) {
+                input.value = value;
+            }
+        }
+
+        function addToCart(name, price, qty) {
+            const quantity = parseInt(qty);
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ name, price, quantity });
+            }
+            
+            updateCartUI();
+            showNotification(`${quantity}x ${name} aggiunto al carrello`);
+        }
+
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = cartCount;
+
+            const cartItemsDiv = document.getElementById('cartItems');
+            const emptyMessage = document.getElementById('emptyMessage');
+            const totalSection = document.getElementById('cartTotalSection');
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '';
+                emptyMessage.style.display = 'block';
+                totalSection.style.display = 'none';
+            } else {
+                let html = '';
+                cart.forEach(item => {
+                    const itemTotal = (item.price * item.quantity).toFixed(2);
+                    html += `
+                        <div class="cart-item">
+                            <div>
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-qty">Qty: ${item.quantity}</div>
+                            </div>
+                            <div class="cart-item-price">€${itemTotal}</div>
+                            <span class="cart-remove" onclick="removeFromCart('${item.name}')">✕</span>
+                        </div>
+                    `;
+                });
+                cartItemsDiv.innerHTML = html;
+                emptyMessage.style.display = 'none';
+                totalSection.style.display = 'block';
+
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+                document.getElementById('cartTotal').textContent = `€${total}`;
+            }
+        }
+
+        function openCart() {
+            document.getElementById('cartModal').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function openCheckout() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+            
+            let checkoutItemsHtml = '';
+            cart.forEach(item => {
+                const itemTotal = (item.price * item.quantity).toFixed(2);
+                checkoutItemsHtml += `<div class="summary-item"><span>${item.quantity}x ${item.name}</span><span>€${itemTotal}</span></div>`;
+            });
+            
+            document.getElementById('checkoutItems').innerHTML = checkoutItemsHtml;
+            document.getElementById('checkoutTotal').textContent = `€${total}`;
+            
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function confirmOrder() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+
+            if (!firstName || !lastName || !email || !address || !city || !cardNumber) {
+                alert('Compilare tutti i campi');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
+            
+            alert(`✓ Ordine Confermato!\n\nCliente: ${firstName} ${lastName}\nEmail: ${email}\nIndirizzo: ${address}, ${city}\n\nTotale: €${total}\n\nGrazie per il tuo acquisto consapevole!`);
+            
+            cart = [];
+            updateCartUI();
+            closeCheckout();
+            closeCart();
+        }
+
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.textContent = message;
+            notif.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--gold);
+                color: var(--black);
+                padding: 15px 25px;
+                border-radius: 5px;
+                font-weight: bold;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+            `;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1000);
+        });
+
+        window.addEventListener('click', function(e) {
+            const cartModal = document.getElementById('cartModal');
+            const checkoutModal = document.getElementById('checkoutModal');
+            
+            if (e.target === cartModal) closeCart();
+            if (e.target === checkoutModal) closeCheckout();
+        });
+    </script>
+</body>
+</html>

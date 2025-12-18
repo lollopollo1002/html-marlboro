@@ -721,6 +721,17 @@
 
         .pack-front {
             background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 50%, var(--dark-gold) 100%);
+            padding: 0;
+            align-items: stretch;
+            justify-content: stretch;
+            overflow: hidden;
+        }
+
+        .pack-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 20px;
         }
 
         .pack-logo {
@@ -977,6 +988,29 @@
         .product-cta {
             display: flex;
             gap: 20px;
+            margin-top: 40px;
+        }
+
+        .buy-button {
+            display: inline-block;
+            padding: 15px 50px;
+            background: var(--gold);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            border: 2px solid var(--gold);
+        }
+
+        .buy-button:hover {
+            background: var(--light-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
         }
 
         .scroll-top {
@@ -1248,6 +1282,10 @@
                         <li><span class="check">✓</span> Controllo qualità rigoroso su ogni lotto</li>
                     </ul>
                 </div>
+
+                <div class="product-cta">
+                    <a href="shop-gold.html" class="buy-button">Compra Ora</a>
+                </div>
             </div>
         </div>
     </section>
@@ -1335,6 +1373,10 @@
                         <li><span class="check">✓</span> Qualità premium con coscienza ambientale</li>
                     </ul>
                 </div>
+
+                <div class="product-cta">
+                    <a href="shop-eco.html" class="buy-button">Compra Ora</a>
+                </div>
             </div>
         </div>
     </section>
@@ -1414,8 +1456,7 @@
                 <div class="pack-glow"></div>
                 <div class="pack-3d" onclick="flipPack(this)">
                     <div class="pack-face pack-front">
-                        <div class="pack-logo">MARLBORO</div>
-                        <div class="pack-label">GOLD</div>
+                        <img src="https://api.hy-vee.cloud/cdn-cgi/image/f=auto,w=640,q=60,dpr=1/https://e22d0640933e3c7f8c86-34aee0c49088be50e3ac6555f6c963fb.ssl.cf2.rackcdn.com/0028200003840_CL_Syndigo_default_large.png" alt="Marlboro Gold Standard">
                     </div>
                     <div class="pack-face pack-back">
                         <div class="pack-back-icon">✨</div>
@@ -1431,8 +1472,7 @@
                 <div class="pack-glow"></div>
                 <div class="pack-3d" onclick="flipPack(this)">
                     <div class="pack-face pack-front">
-                        <div class="pack-logo">MARLBORO</div>
-                        <div class="pack-label">PREMIUM</div>
+                        <img src="https://therollnpuff.com/cdn/shop/files/WhatsApp-Image-2022-07-22-at-4.42.01-PM_1200x1200.jpg?v=1707997442" alt="Marlboro Gold Pack">
                     </div>
                     <div class="pack-face pack-back">
                         <div class="pack-back-icon">👑</div>

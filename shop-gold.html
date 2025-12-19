@@ -21,7 +21,7 @@
         }
 
         body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--black);
             color: #fff;
             overflow-x: hidden;
@@ -38,19 +38,19 @@
             align-items: center;
             justify-content: center;
             z-index: 10000;
+            transition: opacity 0.5s ease;
         }
 
         .preloader.hidden {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
         }
 
         .loader {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--gray);
-            border-top: 3px solid var(--gold);
+            width: 80px;
+            height: 80px;
+            border: 4px solid var(--gray);
+            border-top: 4px solid var(--gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -60,48 +60,73 @@
             100% { transform: rotate(360deg); }
         }
 
-        header {
+        .navbar {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
             border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .logo {
-            font-size: 2rem;
+        .navbar.scrolled {
+            padding: 15px 50px;
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--gold);
             letter-spacing: 3px;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .logo:hover {
-            opacity: 0.8;
+        .nav-logo:hover {
+            color: var(--light-gold);
+            transform: scale(1.05);
         }
 
-        .header-right {
+        .nav-links {
             display: flex;
             gap: 40px;
-            align-items: center;
+            list-style: none;
         }
 
-        nav a {
+        .nav-links a {
             color: #fff;
             text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            text-transform: uppercase;
+            font-size: 1rem;
             letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        nav a:hover {
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
             color: var(--gold);
         }
 
@@ -129,56 +154,80 @@
         }
 
         .hero {
-            width: 100%;
+            position: relative;
             height: 70vh;
-            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 80px;
-            position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--light-gold) 50%, var(--gold) 100%);
+            margin-top: 80px;
         }
 
-        .hero::before {
-            content: '';
+        .hero-background {
             position: absolute;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent);
-            border-radius: 50%;
-            top: -300px;
-            right: -300px;
-            animation: float 15s infinite ease-in-out;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg') center/cover;
+            opacity: 0.2;
+            filter: blur(2px);
+            animation: zoomBackground 20s infinite alternate;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-100px, 100px); }
+        @keyframes zoomBackground {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
 
         .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-            max-width: 1400px;
-            width: 90%;
-            z-index: 2;
             position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: fadeInUp 1.5s ease;
         }
 
-        .hero-text h1 {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
             font-size: 4.5rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: slideInLeft 1s ease;
+            font-weight: bold;
+            color: #8b0000;
+            text-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+            letter-spacing: 5px;
+            animation: glow 3s infinite alternate;
         }
 
-        @keyframes slideInLeft {
+        @keyframes glow {
+            from { 
+                text-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+                filter: drop-shadow(0 0 10px rgba(139,0,0,0.3));
+            }
+            to { 
+                text-shadow: 5px 5px 30px rgba(139,0,0,0.8), 0 0 50px rgba(212,175,55,0.5);
+                filter: drop-shadow(0 0 30px rgba(139,0,0,0.8));
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--gray);
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            animation: slideIn 1.5s ease 0.3s both;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
                 transform: translateX(-50px);
@@ -187,60 +236,6 @@
                 opacity: 1;
                 transform: translateX(0);
             }
-        }
-
-        .hero-text p {
-            font-size: 1.4rem;
-            color: #ccc;
-            margin-bottom: 40px;
-            line-height: 1.8;
-            animation: slideInLeft 1s ease 0.2s both;
-        }
-
-        .cta-primary {
-            display: inline-block;
-            padding: 18px 60px;
-            background: var(--gold);
-            color: var(--black);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-radius: 0;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
-            animation: slideInLeft 1s ease 0.4s both;
-            border: none;
-            cursor: pointer;
-        }
-
-        .cta-primary:hover {
-            background: var(--light-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.5);
-        }
-
-        .hero-image {
-            text-align: center;
-            animation: slideInRight 1s ease 0.3s both;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
         }
 
         .products-section {
@@ -556,13 +551,6 @@
             letter-spacing: 2px;
         }
 
-        .checkout-text {
-            color: #ccc;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-
         .checkout-form {
             text-align: left;
             margin-bottom: 30px;
@@ -653,36 +641,109 @@
             font-size: 0.9rem;
         }
 
-        .back-link {
-            display: inline-block;
-            margin: 20px 0;
-            color: var(--gold);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
+        @media (max-width: 1024px) {
+            .products-section {
+                padding: 80px 30px;
+            }
 
-        .back-link:hover {
-            color: var(--light-gold);
+            .products-grid {
+                gap: 50px;
+            }
+
+            .navbar {
+                padding: 15px 30px;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
+            .hero {
+                height: 60vh;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 0.75rem;
+                margin-left: 10px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .products-section {
+                padding: 60px 20px;
             }
 
             .products-grid {
                 grid-template-columns: 1fr;
+                gap: 40px;
             }
 
-            header {
-                padding: 15px 20px;
+            .product-card {
+                padding: 25px;
             }
 
-            nav a {
-                margin-left: 15px;
-                font-size: 0.8rem;
+            .product-image {
+                height: 250px;
+            }
+
+            .product-card h3 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                height: 50vh;
+                margin-top: 70px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .nav-logo {
+                font-size: 1rem;
+            }
+
+            .products-grid {
+                gap: 25px;
+            }
+
+            .cart-content {
+                width: 95%;
+                max-width: none;
+            }
+
+            .checkout-content {
+                width: 95%;
             }
         }
     </style>
@@ -692,33 +753,26 @@
         <div class="loader"></div>
     </div>
 
-    <header>
-        <a href="index.html" class="logo" style="cursor: pointer;">MARLBORO</a>
-        <div class="header-right">
-            <nav>
-                <a href="index.html">← Home</a>
-            </nav>
-            <div class="cart-icon" onclick="openCart()">
-                🛒 <span class="cart-count" id="cartCount">0</span>
-            </div>
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-logo">MARLBORO</a>
+        <ul class="nav-links">
+            <li><a href="index.html">← Home</a></li>
+        </ul>
+        <div class="cart-icon" onclick="openCart()">
+            🛒 <span class="cart-count" id="cartCount">0</span>
         </div>
-    </header>
+    </nav>
 
     <section class="hero">
+        <div class="hero-background"></div>
         <div class="hero-content">
-            <div class="hero-text">
-                <h1>Marlboro Gold</h1>
-                <p>L'esperienza premium che ridefinisce l'eccellenza dal 1924</p>
-                <button class="cta-primary" onclick="scrollToSection('prodotti')">Scopri Ora</button>
-            </div>
-            <div class="hero-image">
-                <img src="https://dutyfreeamericas.com/media/catalog/product/cache/280d249bd6ac6f85224a1c9c88bacc86/m/a/marlboro_gold_pack_box_carton.jpg" alt="Marlboro Gold">
-            </div>
+            <h1 class="hero-title">MARLBORO GOLD</h1>
+            <p class="hero-subtitle">L'esperienza premium dal 1924</p>
         </div>
     </section>
 
-    <section class="products-section" id="prodotti">
-        <h2 class="section-title">Il Nostro Prodotto</h2>
+    <section class="products-section">
+        <h2 class="section-title">Scegli il Tuo Prodotto</h2>
         <div class="products-grid">
             <div class="product-card">
                 <div class="product-image">
@@ -726,13 +780,13 @@
                 </div>
                 <h3>Marlboro Gold Standard</h3>
                 <p>Il classico senza tempo. Qualità premium e gusto raffinato in ogni sigaretta.</p>
-                <div class="product-price">€6,30</div>
+                <div class="product-price">€5,99</div>
                 <div class="quantity-selector">
                     <button class="quantity-btn" onclick="changeQty('qty1', -1)">−</button>
                     <input type="number" id="qty1" class="quantity-input" value="1" min="1" max="99">
                     <button class="quantity-btn" onclick="changeQty('qty1', 1)">+</button>
                 </div>
-                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Standard', 15.99, document.getElementById('qty1').value)">Aggiungi al Carrello</button>
+                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Standard', 5.99, document.getElementById('qty1').value)">Aggiungi al Carrello</button>
             </div>
 
             <div class="product-card">
@@ -747,7 +801,7 @@
                     <input type="number" id="qty2" class="quantity-input" value="1" min="1" max="99">
                     <button class="quantity-btn" onclick="changeQty('qty2', 1)">+</button>
                 </div>
-                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Pack', 18.99, document.getElementById('qty2').value)">Aggiungi al Carrello</button>
+                <button class="add-to-cart" onclick="addToCart('Marlboro Gold Pack', 6.50, document.getElementById('qty2').value)">Aggiungi al Carrello</button>
             </div>
         </div>
     </section>
@@ -772,7 +826,6 @@
         <div class="checkout-content">
             <span class="checkout-close" onclick="closeCheckout()">✕</span>
             <h2 class="checkout-title">Checkout</h2>
-            <p class="checkout-text">Completa i dettagli della tua spedizione</p>
             
             <div class="checkout-summary">
                 <div id="checkoutItems"></div>
@@ -810,7 +863,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Numero di Carta (TEST: 4532...)</label>
+                    <label>Numero di Carta</label>
                     <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
                 </div>
             </div>
@@ -827,9 +880,16 @@
     <script>
         let cart = [];
 
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            element.scrollIntoView({ behavior: 'smooth' });
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function loadCartFromLocalStorage() {
+            const saved = localStorage.getItem('cart');
+            if (saved) {
+                cart = JSON.parse(saved);
+                updateCartUI();
+            }
         }
 
         function changeQty(inputId, change) {
@@ -850,12 +910,14 @@
                 cart.push({ name, price, quantity });
             }
             
+            saveCartToLocalStorage();
             updateCartUI();
             showNotification(`${quantity}x ${name} aggiunto al carrello`);
         }
 
         function removeFromCart(name) {
             cart = cart.filter(item => item.name !== name);
+            saveCartToLocalStorage();
             updateCartUI();
         }
 
@@ -940,6 +1002,7 @@
             alert(`✓ Ordine Confermato!\n\nCliente: ${firstName} ${lastName}\nEmail: ${email}\nIndirizzo: ${address}, ${city}\n\nTotale: €${total}\n\nGrazie per il tuo acquisto!`);
             
             cart = [];
+            saveCartToLocalStorage();
             updateCartUI();
             closeCheckout();
             closeCart();
@@ -965,6 +1028,7 @@
         }
 
         window.addEventListener('load', function() {
+            loadCartFromLocalStorage();
             setTimeout(function() {
                 document.getElementById('preloader').classList.add('hidden');
             }, 1000);
@@ -977,7 +1041,15 @@
             if (e.target === cartModal) closeCart();
             if (e.target === checkoutModal) closeCheckout();
         });
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
     </script>
 </body>
 </html>
-
